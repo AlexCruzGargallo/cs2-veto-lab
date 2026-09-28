@@ -44,11 +44,15 @@ const numCell = { fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" } as 
 type PlayersPanelProps = {
   matches: AnalyzedMatch[];
   currentLineup: string[];
+  currentElo: Record<string, number>;
 };
 
-export default function PlayersPanel({ matches, currentLineup }: PlayersPanelProps) {
+export default function PlayersPanel({ matches, currentLineup, currentElo }: PlayersPanelProps) {
   const [metric, setMetric] = useState<Metric>("adr");
-  const roster = useMemo(() => analyzeRoster(matches, currentLineup), [matches, currentLineup]);
+  const roster = useMemo(
+    () => analyzeRoster(matches, currentLineup, currentElo),
+    [matches, currentLineup, currentElo],
+  );
   const players = useMemo(() => summarizePlayers(matches), [matches]);
   const statsById = new Map(players.map((p) => [p.id, p]));
 

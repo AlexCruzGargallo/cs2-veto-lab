@@ -108,6 +108,9 @@ export interface TeamAnalysis {
   league: FaceitLeague | null;
   matches: AnalyzedMatch[];
   failedMatches: string[];
+  // ELO actual de nuestros jugadores (API oficial). Sirve de respaldo cuando
+  // no se puede obtener el ELO del momento de cada partido.
+  currentElo: Record<string, number>;
 }
 
 export interface StandingRow {

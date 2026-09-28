@@ -193,7 +193,7 @@ export default function TeamStatsPage() {
           <VetosTable matches={matches} teamId={teamIdValue} />
         ))}
       {tab === "maps" && <MapDetails stats={stats} />}
-      {tab === "players" && <PlayersPanel matches={matches} currentLineup={roster.currentLineup} />}
+      {tab === "players" && <PlayersPanel matches={matches} currentLineup={roster.currentLineup} currentElo={data.currentElo ?? {}} />}
       {tab === "league" && <LeaguePanel teamId={teamIdValue} />}
     </div>
   );

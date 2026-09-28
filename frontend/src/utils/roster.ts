@@ -33,7 +33,12 @@ const REGULAR_SHARE = 0.4;
 
 // `lineup`: alineación actual si ya se conoce (p. ej. calculada con todos los
 // partidos aunque aquí lleguen sólo los filtrados).
-export function analyzeRoster(matches: AnalyzedMatch[], lineup?: string[]): RosterAnalysis {
+// `currentElo`: ELO actual por jugador, para quien no tenga ELO de partido.
+export function analyzeRoster(
+  matches: AnalyzedMatch[],
+  lineup?: string[],
+  currentElo: Record<string, number> = {},
+): RosterAnalysis {
   const sorted = [...matches].filter((m) => m.roster.length > 0).sort((a, b) => b.date - a.date);
   const byId = new Map<string, RosterEntry>();
 
@@ -63,7 +68,12 @@ export function analyzeRoster(matches: AnalyzedMatch[], lineup?: string[]): Rost
   const current = new Set(currentLineup);
   const total = sorted.length;
   const players = [...byId.values()]
-    .map((p) => ({ ...p, share: total ? p.matches / total : 0, inCurrentLineup: current.has(p.id) }))
+    .map((p) => ({
+      ...p,
+      elo: p.elo ?? currentElo[p.id] ?? null,
+      share: total ? p.matches / total : 0,
+      inCurrentLineup: current.has(p.id),
+    }))
     .sort((a, b) => Number(b.inCurrentLineup) - Number(a.inCurrentLineup) || b.matches - a.matches);
 
   const changes: RosterChange[] = [];

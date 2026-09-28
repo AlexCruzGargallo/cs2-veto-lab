@@ -1,9 +1,12 @@
 import { cached, TTL } from "../lib/cache.js";
-import { curlJson, fetchJson, HttpError, internalJson } from "../lib/http.js";
+import { fetchJson, HttpError, internalJson, mapLimit } from "../lib/http.js";
 import type { League } from "../types.js";
 
 const OPEN_API = "https://open.faceit.com/data/v4";
-const WEB_API = "https://www.faceit.com/api";
+// Endpoints internos de Faceit (liga, clasificación, calendario). Se usan bajo
+// api.faceit.com: www.faceit.com está detrás de Cloudflare, que bloquea las
+// peticiones desde servidores (p. ej. Render).
+const WEB_API = "https://api.faceit.com";
 const enc = encodeURIComponent;
 
 // null en vez de excepción cuando Faceit responde 404 (no existe / no aplica).
@@ -30,14 +33,62 @@ export function getTeamById(teamId: string) {
   );
 }
 
-// Devuelve una fila por MAPA jugado (un BO3 aparece 2-3 veces), ordenadas por
-// fecha descendente.
-export function getMatchHistory(teamId: string, size = 150) {
-  return cached(`history:${teamId}:${size}`, 5 * TTL.minute, () =>
-    curlJson<any[]>(
-      `${WEB_API}/stats/v1/stats/time/teams/${enc(teamId)}/games/cs2?page=0&size=${size}`,
-    ),
-  );
+// Historial de un jugador (API oficial): una página de hasta 100 partidos
+// desde `fromSec` (segundos unix), del más reciente al más antiguo.
+function getPlayerHistoryPage(playerId: string, fromSec: number, offset: number) {
+  return cached(`player-history:${playerId}:${fromSec}:${offset}`, 10 * TTL.minute, async () => {
+    const data = await fetchJson(
+      `${OPEN_API}/players/${enc(playerId)}/history?game=cs2&from=${fromSec}&offset=${offset}&limit=100`,
+      { auth: true },
+    );
+    return (data?.items ?? []) as any[];
+  });
+}
+
+const HISTORY_DAYS = 180;
+const HISTORY_MAX_PAGES = 10;
+
+// Partidos recientes del equipo (API oficial). La Data API no tiene historial
+// por equipo, así que se recorre el historial de cada miembro y se quedan los
+// partidos en los que uno de los bandos es este equipo. El endpoint interno
+// que lo daba directamente está bloqueado por Cloudflare desde servidores.
+export function getMatchHistory(teamId: string, memberIds: string[]) {
+  // Redondeado al día: así la clave de caché no cambia en cada petición.
+  const fromSec = Math.floor((Date.now() - HISTORY_DAYS * TTL.day) / TTL.day) * 86_400;
+
+  return cached(`team-history:${teamId}:${fromSec}`, 10 * TTL.minute, async () => {
+    const found = new Map<string, number>();
+
+    const scan = async (playerId: string) => {
+      for (let page = 0; page < HISTORY_MAX_PAGES; page++) {
+        const items = await getPlayerHistoryPage(playerId, fromSec, page * 100);
+        for (const m of items) {
+          // Sin started_at = nunca se jugó (walkover / forfeit): no aporta nada.
+          if (!m.started_at) continue;
+          if (m.teams?.faction1?.team_id === teamId || m.teams?.faction2?.team_id === teamId) {
+            found.set(m.match_id, m.started_at * 1000);
+          }
+        }
+        if (items.length < 100) break;
+      }
+    };
+
+    // Los jugadores que fallen (perfil privado, borrado...) no tumban el resto.
+    await mapLimit(memberIds, 4, scan);
+
+    return [...found.entries()]
+      .map(([matchId, date]) => ({ matchId, date }))
+      .sort((a, b) => b.date - a.date);
+  });
+}
+
+// ELO actual de un jugador en CS2 (API oficial). null si no tiene.
+export function getPlayerElo(playerId: string) {
+  return cached(`player-elo:${playerId}`, TTL.hour, async () => {
+    const data = await orNull(fetchJson(`${OPEN_API}/players/${enc(playerId)}`, { auth: true }));
+    const elo = Number(data?.games?.cs2?.faceit_elo);
+    return elo > 0 ? elo : null;
+  });
 }
 
 export function getMatchVetos(matchId: string) {

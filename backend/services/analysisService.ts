@@ -17,12 +17,14 @@ import {
   getMatchHistory,
   getMatchStats,
   getMatchVetos,
+  getPlayerElo,
   getTeamById,
 } from "./faceitService.js";
 
 type Faction = "faction1" | "faction2";
 
 const MAX_CONCURRENT_REQUESTS = 4;
+const WALKOVER_MARGIN = 20;
 
 // Organizador "ESEA" en Faceit. Los nombres de competición de la liga no
 // siempre incluyen "ESEA" (p. ej. "S58 OCE Intermediate Central - Playoffs").
@@ -31,22 +33,23 @@ export const ESEA_ORGANIZER_ID = "08b06cfc-74d0-454b-9a51-feda4b6b18da";
 export async function getTeamAnalysis(teamId: string, limit = 60): Promise<TeamAnalysis> {
   // El equipo es obligatorio (si no existe, 404). La liga y el historial no:
   // un equipo sin liga ESEA o sin partidos sigue siendo analizable.
-  const [team, league, history] = await Promise.all([
+  const [team, league] = await Promise.all([
     getTeamById(teamId),
     getCurrentLeague(teamId).catch((error) => {
       console.warn(`[league] ${teamId}: ${error.message}`);
       return null;
     }),
-    getMatchHistory(teamId),
   ]);
 
-  // El historial de Faceit sólo trae los últimos partidos: se guardan en la
+  const memberIds: string[] = (team.members ?? []).map((m: any) => m.user_id).filter(Boolean);
+  const history = await getMatchHistory(teamId, memberIds);
+
+  // El historial sólo cubre los últimos meses: los partidos se guardan en la
   // base de datos y se lee de ahí, así el histórico se va acumulando.
-  rememberTeamMatches(
-    teamId,
-    history.map((row) => ({ matchId: row.matchId as string, date: Number(row.date) || 0 })),
-  );
-  const matchIds = knownTeamMatches(teamId, limit);
+  rememberTeamMatches(teamId, history);
+  // Se piden algunos de más: los walkovers se descartan tras cargarlos y así
+  // siguen quedando `limit` partidos jugados.
+  const matchIds = knownTeamMatches(teamId, limit + WALKOVER_MARGIN);
 
   const results = await mapLimit(matchIds, MAX_CONCURRENT_REQUESTS, (matchId) =>
     analyzeMatch(matchId, teamId, league),
@@ -56,6 +59,8 @@ export async function getTeamAnalysis(teamId: string, limit = 60): Promise<TeamA
   const failedMatches: string[] = [];
   results.forEach((result, i) => {
     if (result.status === "fulfilled") {
+      // Partidos que no se llegaron a jugar (walkover): sin mapas ni veto.
+      if (result.value.maps.length === 0 && result.value.vetos.length === 0) return;
       matches.push(result.value);
     } else {
       failedMatches.push(matchIds[i]);
@@ -64,8 +69,17 @@ export async function getTeamAnalysis(teamId: string, limit = 60): Promise<TeamA
   });
 
   matches.sort((a, b) => b.date - a.date);
+  matches.splice(limit);
 
-  return { team, league, matches, failedMatches };
+  // ELO actual de todos nuestros jugadores que aparecen en los partidos.
+  const playerIds = [...new Set(matches.flatMap((m) => m.roster.map((p) => p.id)))];
+  const elos = await mapLimit(playerIds, MAX_CONCURRENT_REQUESTS, getPlayerElo);
+  const currentElo: Record<string, number> = {};
+  elos.forEach((r, i) => {
+    if (r.status === "fulfilled" && r.value !== null) currentElo[playerIds[i]] = r.value;
+  });
+
+  return { team, league, matches, failedMatches, currentElo };
 }
 
 async function analyzeMatch(
