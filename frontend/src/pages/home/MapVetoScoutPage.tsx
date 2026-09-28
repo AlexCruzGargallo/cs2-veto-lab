@@ -78,7 +78,7 @@ export default function MapVetoScoutPage() {
             }}
           />
           <Typography variant="h1" sx={{ fontSize: { xs: "2.1rem", md: "2.8rem" } }}>
-            Map Veto <span style={{ color: colors.accent }}>Scout</span>
+            CS2 Veto<span style={{ color: colors.accent }}>Lab</span>
           </Typography>
           <Typography
             variant="body1"

@@ -1,0 +1,18 @@
+# Despliegue en Render (plan gratuito): un solo servicio con la API y la web.
+# En Render: New → Blueprint → elige este repo. Sólo pide FACEIT_API_KEY.
+services:
+  - type: web
+    name: cs2-vetolab
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      # Se introduce a mano en el panel de Render (nunca en el repo).
+      - key: FACEIT_API_KEY
+        sync: false
+      # El plan gratuito no tiene disco persistente: la caché SQLite se
+      # reconstruye sola tras cada reinicio o despliegue.
+      - key: DB_PATH
+        value: /tmp/faceit.db

@@ -5,6 +5,7 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import express, { type ErrorRequestHandler } from "express";
 import cors from "cors";
+import { rateLimit } from "express-rate-limit";
 import faceitRoutes from "./routes/faceit.js";
 import { purgeExpired } from "./lib/db.js";
 import { HttpError } from "./lib/http.js";
@@ -16,12 +17,34 @@ if (!process.env.FACEIT_API_KEY) {
 
 const app = express();
 
+// En producción (Render) el backend va detrás de un proxy: sin esto todas las
+// peticiones parecerían venir de la misma IP y el límite sería global.
+app.set("trust proxy", 1);
+
 app.use(
   cors({
     origin: (process.env.CORS_ORIGIN ?? "http://localhost:5173").split(","),
   }),
 );
 app.use(express.json());
+
+// Para el health check del hosting: responde sin tocar Faceit.
+app.get("/api/health", (_req, res) => {
+  res.json({ ok: true });
+});
+
+// Límites por IP: la clave de Faceit tiene un cupo compartido por todos los
+// usuarios. El análisis de un equipo nuevo cuesta cientos de llamadas a Faceit
+// (luego queda en caché), así que tiene su propio límite, más estricto.
+const tooMany = { error: "Too many requests, try again in a few minutes." };
+app.use(
+  "/api",
+  rateLimit({ windowMs: 60_000, limit: 120, standardHeaders: "draft-8", legacyHeaders: false, message: tooMany }),
+);
+app.use(
+  /^\/api\/teams\/[^/]+\/(analysis|league-overview)$/,
+  rateLimit({ windowMs: 10 * 60_000, limit: 30, standardHeaders: "draft-8", legacyHeaders: false, message: tooMany }),
+);
 
 app.use("/api", faceitRoutes);
 app.use("/api", (_req, _res, next) => next(new HttpError(404, "Not found")));
@@ -48,6 +71,6 @@ purgeExpired();
 
 const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => {
+app.listen(Number(PORT), "0.0.0.0", () => {
   console.log(`Servidor en http://localhost:${PORT}`);
 });

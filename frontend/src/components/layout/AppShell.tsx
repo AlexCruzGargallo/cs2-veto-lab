@@ -32,7 +32,7 @@ export function Logo({ size = "small" }: { size?: "small" | "large" }) {
         <GpsFixedIcon sx={{ fontSize: large ? 22 : 17 }} />
       </Box>
       <Typography variant="h6" component="span" sx={{ fontSize: large ? "1.3rem" : "1rem" }}>
-        Map Veto <span style={{ color: colors.accent }}>Scout</span>
+        CS2 Veto<span style={{ color: colors.accent }}>Lab</span>
       </Typography>
     </Box>
   );
@@ -93,7 +93,7 @@ export default function AppShell() {
       <Box component="footer" sx={{ borderTop: `1px solid ${colors.border}`, py: 3 }}>
         <Container maxWidth={false} sx={{ maxWidth: 1180 }}>
           <Typography variant="caption" sx={{ color: "text.secondary" }}>
-            Data from FACEIT. Not affiliated with FACEIT or ESEA.
+            Data from FACEIT. Not affiliated with Valve, FACEIT or ESEA.
           </Typography>
         </Container>
       </Box>

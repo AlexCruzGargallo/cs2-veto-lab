@@ -1,6 +1,6 @@
 # Imagen de producción: el backend sirve la API y el frontend compilado.
-#   docker build -t map-veto-scout .
-#   docker run -p 3001:3001 --env-file backend/.env -v veto-data:/data map-veto-scout
+#   docker build -t cs2-vetolab .
+#   docker run -p 3001:3001 --env-file backend/.env -v veto-data:/data cs2-vetolab
 
 FROM node:24-slim AS build
 WORKDIR /app

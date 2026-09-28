@@ -1,4 +1,4 @@
-# Map Veto Scout
+# CS2 VetoLab
 
 Herramienta de scouting para equipos de CS2 en FACEIT / ESEA: vetos, pool de mapas,
 jugadores, liga y un simulador de veto contra un rival.
@@ -47,11 +47,23 @@ npm run dev:frontend                    # http://localhost:5173
 | `npm run build` | Compila backend y frontend |
 | `npm start --workspace=backend` | Producción: el backend sirve la API y el frontend compilado |
 
+### Publicarlo (Render, gratis)
+
+El repo incluye `render.yaml`: un solo servicio que sirve la API y la web.
+
+1. Sube el repo a GitHub.
+2. En [render.com](https://render.com): **New → Blueprint** y elige el repo.
+3. Introduce `FACEIT_API_KEY` cuando lo pida. Cada push a `main` redespliega solo.
+
+Plan gratuito: el servicio se duerme tras 15 min sin uso (la siguiente visita tarda
+~1 min en despertar) y la caché se vacía al reiniciar. La API limita las peticiones por
+IP para proteger el cupo de la clave de FACEIT.
+
 Docker (producción, un solo contenedor):
 
 ```bash
-docker build -t map-veto-scout .
-docker run -p 3001:3001 --env-file backend/.env -v veto-data:/data map-veto-scout
+docker build -t cs2-vetolab .
+docker run -p 3001:3001 --env-file backend/.env -v veto-data:/data cs2-vetolab
 ```
 
 ## Arquitectura

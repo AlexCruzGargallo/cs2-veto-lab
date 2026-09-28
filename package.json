@@ -1,8 +1,8 @@
 {
-  "name": "faceit-team-stats",
+  "name": "cs2-vetolab",
   "private": true,
   "version": "1.0.0",
-  "description": "Map Veto Scout: análisis de vetos y mapas de equipos de FACEIT / ESEA",
+  "description": "CS2 VetoLab: análisis de vetos y mapas de equipos de FACEIT / ESEA",
   "workspaces": [
     "shared",
     "backend",
