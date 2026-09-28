@@ -119,12 +119,27 @@ export function getMatchStats(matchId: string) {
 
 // API interna del partido: trae el ELO de cada jugador en ese partido, que la
 // Data API oficial no da. Sirve para medir la diferencia de nivel.
-export function getMatchDetailsV2(matchId: string) {
-  return cached(
-    `matchv2:${matchId}`,
-    (data: any) => (data?.status === "FINISHED" ? TTL.month : TTL.minute),
-    async () => (await internalJson(`https://api.faceit.com/match/v2/match/${enc(matchId)}`))?.payload ?? null,
-  );
+//
+// Cloudflare la bloquea desde servidores (Render): tras el primer fallo se deja
+// de intentar durante una hora. Si no, cada partido esperaría al reintento con
+// curl y el análisis tardaría minutos.
+let matchV2BlockedUntil = 0;
+
+export async function getMatchDetailsV2(matchId: string) {
+  if (Date.now() < matchV2BlockedUntil) return null;
+  try {
+    return await cached(
+      `matchv2:${matchId}`,
+      (data: any) => (data?.status === "FINISHED" ? TTL.month : TTL.minute),
+      async () => (await internalJson(`https://api.faceit.com/match/v2/match/${enc(matchId)}`))?.payload ?? null,
+    );
+  } catch (error) {
+    // Cualquier fallo (403 de Cloudflare, curl colgado hasta su timeout...):
+    // el ELO por partido es opcional, no merece la pena seguir esperando.
+    matchV2BlockedUntil = Date.now() + TTL.hour;
+    console.warn(`[matchv2] no disponible (${(error as Error).message.slice(0, 80)}): se omite el ELO por partido durante 1 h`);
+    return null;
+  }
 }
 
 // null si el equipo no está en ninguna liga ESEA (Faceit responde 404).

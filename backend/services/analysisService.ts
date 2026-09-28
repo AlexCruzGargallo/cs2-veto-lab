@@ -31,6 +31,9 @@ const WALKOVER_MARGIN = 20;
 export const ESEA_ORGANIZER_ID = "08b06cfc-74d0-454b-9a51-feda4b6b18da";
 
 export async function getTeamAnalysis(teamId: string, limit = 60): Promise<TeamAnalysis> {
+  const started = Date.now();
+  const elapsed = () => `${((Date.now() - started) / 1000).toFixed(1)}s`;
+
   // El equipo es obligatorio (si no existe, 404). La liga y el historial no:
   // un equipo sin liga ESEA o sin partidos sigue siendo analizable.
   const [team, league] = await Promise.all([
@@ -43,6 +46,7 @@ export async function getTeamAnalysis(teamId: string, limit = 60): Promise<TeamA
 
   const memberIds: string[] = (team.members ?? []).map((m: any) => m.user_id).filter(Boolean);
   const history = await getMatchHistory(teamId, memberIds);
+  console.log(`[analysis] ${team.name}: historial ${history.length} partidos (${elapsed()})`);
 
   // El historial sólo cubre los últimos meses: los partidos se guardan en la
   // base de datos y se lee de ahí, así el histórico se va acumulando.
@@ -70,6 +74,7 @@ export async function getTeamAnalysis(teamId: string, limit = 60): Promise<TeamA
 
   matches.sort((a, b) => b.date - a.date);
   matches.splice(limit);
+  console.log(`[analysis] ${team.name}: ${matches.length} partidos analizados, ${failedMatches.length} fallidos (${elapsed()})`);
 
   // ELO actual de todos nuestros jugadores que aparecen en los partidos.
   const playerIds = [...new Set(matches.flatMap((m) => m.roster.map((p) => p.id)))];
@@ -79,6 +84,7 @@ export async function getTeamAnalysis(teamId: string, limit = 60): Promise<TeamA
     if (r.status === "fulfilled" && r.value !== null) currentElo[playerIds[i]] = r.value;
   });
 
+  console.log(`[analysis] ${team.name}: listo (${elapsed()})`);
   return { team, league, matches, failedMatches, currentElo };
 }
 
