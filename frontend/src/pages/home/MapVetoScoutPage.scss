@@ -1,0 +1,19 @@
+.teams {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.team-card-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.faceit-logo {
+  /* why is not applying width and height? */
+  height: 20px;
+  margin-right: 5px;
+}
