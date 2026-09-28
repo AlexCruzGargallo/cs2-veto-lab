@@ -5,3 +5,6 @@ dist/
 !.env.example
 *.log
 .DS_Store
+
+# Base de datos local del backend (caché persistente)
+backend/data/

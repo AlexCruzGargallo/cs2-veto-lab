@@ -4,18 +4,30 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 
 import "./index.css";
-import TeamStatsPage from "./pages/team-stats/TeamStatsPage.tsx";
-import darkTheme from "./themes/DarkTheme.ts";
+import darkTheme from "./themes/darkTheme.ts";
 import MapVetoScoutPage from "./pages/home/MapVetoScoutPage.tsx";
+import AppShell from "./components/layout/AppShell.tsx";
+
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <MapVetoScoutPage />,
-  },
-  {
-    path: "/team/:teamId",
-    element: <TeamStatsPage />,
+    element: <AppShell />,
+    children: [
+      {
+        path: "/",
+        element: <MapVetoScoutPage />,
+      },
+      {
+        // Las páginas pesadas se cargan bajo demanda: la home no descarga el
+        // código del análisis ni del simulador.
+        path: "/team/:teamId",
+        lazy: async () => ({ Component: (await import("./pages/team-stats/TeamStatsPage.tsx")).default }),
+      },
+      {
+        path: "/matchup",
+        lazy: async () => ({ Component: (await import("./pages/matchup/MatchupPage.tsx")).default }),
+      },
+    ],
   },
 ]);
 

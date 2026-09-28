@@ -1,89 +1,243 @@
-import type { FaceitMatchEnriched, FaceitTeam } from "../types/faceit";
+import type { AnalyzedMatch, VetoStep } from "../types/faceit";
 import { format } from "date-fns/format";
-import TableCell from "@mui/material/TableCell";
-import TableBody from "@mui/material/TableBody";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Table from "@mui/material/Table";
+import {
+  Box,
+  Chip,
+  Link,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import { formatMap } from "../utils/maps";
+import { colors, RESULT_COLORS, tint } from "../themes/tokens";
+import ResultBadge from "./ui/ResultBadge";
+import Panel from "./ui/Panel";
 
 type VetosTableProps = {
-  matches: FaceitMatchEnriched[];
-  team: FaceitTeam;
+  matches: AnalyzedMatch[];
+  teamId: string;
 };
 
-const VetosTable = ({ matches, team }: VetosTableProps) => {
-  console.log("matches", matches);
+function stepStyle(step: VetoStep) {
+  if (step.decider) {
+    return { label: "Decider", color: colors.warn, filled: false };
+  }
+  if (step.by === "us") {
+    return step.action === "pick"
+      ? { label: "Their pick", color: colors.win, filled: true }
+      : { label: "Their ban", color: colors.loss, filled: true };
+  }
+  return step.action === "pick"
+    ? { label: "Opponent pick", color: colors.accentText, filled: false }
+    : { label: "Opponent ban", color: colors.neutral, filled: false };
+}
 
-  const getVectorColor = (
-    selectedBy: string,
-    vetoStatus: string,
-    teamFaction: string,
-  ): string => {
-    if (selectedBy !== teamFaction) {
-      return "gray";
-    } else {
-      if (vetoStatus === "pick") {
-        return "green";
-      } else {
-        return "red";
-      }
-    }
-  };
+function VetoChip({ step, label: text }: { step: VetoStep; label?: string }) {
+  const { label, color, filled } = stepStyle(step);
+  const title = `Step ${step.round} · ${label}${step.random ? " (random)" : ""}`;
 
-  if (!team) return null;
   return (
-    <div>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Round 1</TableCell>
-            <TableCell>Round 2</TableCell>
-            <TableCell>Round 3</TableCell>
-            <TableCell>Round 4</TableCell>
-            <TableCell>Round 5</TableCell>
-            <TableCell>Round 6</TableCell>
-            <TableCell>Round 7</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {matches.map((match) => {
-            const teamFaction =
-              match.faction1 == team.name ? "faction1" : "faction2";
-            return (
-              <TableRow key={match.matchId}>
-                <TableCell>
-                  {format(new Date(match.date), "dd/MM/yyyy")}
-                </TableCell>
-                {match.vetos?.entities.map((veto) => (
-                  <TableCell key={veto.round}>
-                    <div>
-                      <span>{veto.guid} </span>
-                      <span>
-                        {veto.selected_by === "faction1"
-                          ? match.faction1
-                          : match.faction2}{" "}
-                      </span>
-                      <span
-                        style={{
-                          color: getVectorColor(
-                            veto.selected_by,
-                            veto.status,
-                            teamFaction,
-                          ),
-                        }}
-                      >
-                        {veto.status === "drop" ? "DROP" : "PICK"}
-                      </span>
-                    </div>
-                  </TableCell>
-                ))}
+    <Tooltip title={title}>
+      <Chip
+        size="small"
+        label={text ?? formatMap(step.map)}
+        variant={filled ? "filled" : "outlined"}
+        sx={{
+          borderColor: filled ? "transparent" : tint(color, 0.5),
+          color,
+          bgcolor: filled ? tint(color, 0.16) : "transparent",
+          textDecoration: step.action === "drop" ? "line-through" : "none",
+          textDecorationColor: tint(color, 0.6),
+          fontStyle: step.random ? "italic" : "normal",
+        }}
+      />
+    </Tooltip>
+  );
+}
+
+function Legend() {
+  const samples: VetoStep[] = [
+    { round: 0, map: "Their pick", action: "pick", by: "us", random: false, decider: false },
+    { round: 0, map: "Their ban", action: "drop", by: "us", random: false, decider: false },
+    { round: 0, map: "Opponent pick", action: "pick", by: "them", random: false, decider: false },
+    { round: 0, map: "Opponent ban", action: "drop", by: "them", random: false, decider: false },
+    { round: 0, map: "Decider", action: "pick", by: null, random: false, decider: true },
+  ];
+  return (
+    <Box sx={{ display: "flex", gap: 0.75, flexWrap: "wrap" }}>
+      {samples.map((s) => (
+        <VetoChip key={s.map} step={s} label={s.map} />
+      ))}
+    </Box>
+  );
+}
+
+function MatchDate({ match }: { match: AnalyzedMatch }) {
+  return (
+    <Box>
+      <Link href={match.faceitUrl} target="_blank" rel="noreferrer" underline="hover" variant="body2">
+        {match.date ? format(new Date(match.date), "dd MMM yyyy") : "—"}
+      </Link>
+      <Typography variant="caption" sx={{ display: "block", color: "text.secondary" }}>
+        BO{match.bestOf}
+      </Typography>
+    </Box>
+  );
+}
+
+function EloLine({ match }: { match: AnalyzedMatch }) {
+  if (match.teamElo === null || match.opponentElo === null) return null;
+  return (
+    <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, mt: 0.25 }}>
+      <Tooltip title="Average FACEIT ELO of each lineup in this match">
+        <Typography variant="caption" sx={{ color: "text.secondary", fontVariantNumeric: "tabular-nums" }}>
+          ELO {match.teamElo} vs {match.opponentElo}
+        </Typography>
+      </Tooltip>
+    </Box>
+  );
+}
+
+function Opponent({ match, teamId }: { match: AnalyzedMatch; teamId: string }) {
+  return (
+    <Box sx={{ minWidth: 0 }}>
+      <Tooltip title="Compare both teams" placement="top-start">
+        <Link
+          component={RouterLink}
+          to={`/matchup?us=${teamId}&them=${match.opponent.id}`}
+          variant="body2"
+          color="inherit"
+          underline="hover"
+          sx={{ fontWeight: 600, display: "block" }}
+          noWrap
+        >
+          {match.opponent.name}
+        </Link>
+      </Tooltip>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, mt: 0.25, minWidth: 0 }}>
+        {match.isLeague && (
+          <Chip
+            label="ESEA"
+            size="small"
+            sx={{ height: 16, fontSize: "0.62rem", bgcolor: colors.accentSoft, color: colors.accentText }}
+          />
+        )}
+        <Typography variant="caption" sx={{ color: "text.secondary" }} noWrap>
+          {match.competitionName}
+        </Typography>
+      </Box>
+      <EloLine match={match} />
+    </Box>
+  );
+}
+
+function MatchResult({ match }: { match: AnalyzedMatch }) {
+  return (
+    <Box sx={{ whiteSpace: "nowrap" }}>
+      <ResultBadge result={match.result}>
+        {match.score.us}-{match.score.them}
+      </ResultBadge>
+      {match.bestOf > 1 &&
+        match.maps.map((m) => (
+          <Typography
+            key={m.map}
+            variant="caption"
+            sx={{ display: "block", color: RESULT_COLORS[m.result], pl: "30px" }}
+          >
+            {formatMap(m.map)} {m.us}-{m.them}
+          </Typography>
+        ))}
+    </Box>
+  );
+}
+
+function VetoSequence({ match }: { match: AnalyzedMatch }) {
+  if (match.vetos.length === 0) {
+    return (
+      <Typography variant="caption" sx={{ color: "text.secondary" }}>
+        No veto recorded
+      </Typography>
+    );
+  }
+  return (
+    <Box sx={{ display: "flex", gap: 0.5, flexWrap: "wrap" }}>
+      {match.vetos.map((step) => (
+        <VetoChip key={step.round} step={step} />
+      ))}
+    </Box>
+  );
+}
+
+const VetosTable = ({ matches, teamId }: VetosTableProps) => {
+  const theme = useTheme();
+  // En pantallas estrechas la tabla obliga a hacer scroll lateral: se muestra
+  // cada partido como una tarjeta con el veto a todo el ancho.
+  const compact = useMediaQuery(theme.breakpoints.down("md"));
+
+  return (
+    <Panel
+      title="Veto history"
+      subtitle="Every veto step in order, from this team's point of view."
+      action={<Legend />}
+      padded={false}
+    >
+      {compact ? (
+        <Box sx={{ mt: 1 }}>
+          {matches.map((match) => (
+            <Box
+              key={match.matchId}
+              sx={{ px: 2.5, py: 2, borderTop: `1px solid ${colors.border}`, display: "grid", gap: 1.25 }}
+            >
+              <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
+                <MatchDate match={match} />
+                <MatchResult match={match} />
+              </Box>
+              <Opponent match={match} teamId={teamId} />
+              <VetoSequence match={match} />
+            </Box>
+          ))}
+        </Box>
+      ) : (
+        <TableContainer>
+          <Table size="small" sx={{ "& td, & th": { px: 2.5 } }}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Date</TableCell>
+                <TableCell>Opponent</TableCell>
+                <TableCell>Result</TableCell>
+                <TableCell>Veto</TableCell>
               </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </div>
+            </TableHead>
+            <TableBody>
+              {matches.map((match) => (
+                <TableRow key={match.matchId} hover sx={{ "& td": { py: 1.5 } }}>
+                  <TableCell sx={{ whiteSpace: "nowrap" }}>
+                    <MatchDate match={match} />
+                  </TableCell>
+                  <TableCell sx={{ maxWidth: 260 }}>
+                    <Opponent match={match} teamId={teamId} />
+                  </TableCell>
+                  <TableCell>
+                    <MatchResult match={match} />
+                  </TableCell>
+                  <TableCell>
+                    <VetoSequence match={match} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </Panel>
   );
 };
 

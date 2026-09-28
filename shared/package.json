@@ -1,0 +1,7 @@
+{
+  "name": "@faceit-team-stats/shared",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tipos compartidos entre backend y frontend (contrato de la API)",
+  "types": "index.d.ts"
+}

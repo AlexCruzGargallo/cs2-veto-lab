@@ -1,67 +1,44 @@
-const API_URL = "http://localhost:3001/api";
+import type { FaceitTeam, LeagueOverview, TeamAnalysis } from "../types/faceit";
 
-//return the team id for a given team name
-export async function fetchTeamId(teamName: string) {
-  const res = await fetch(`${API_URL}/team/${teamName}`);
+// En desarrollo Vite redirige /api al backend (ver vite.config.ts).
+const API_URL = import.meta.env.VITE_API_URL ?? "/api";
+
+async function apiGet<T>(path: string, signal?: AbortSignal): Promise<T> {
+  const res = await fetch(`${API_URL}${path}`, { signal });
 
   if (!res.ok) {
-    throw new Error("Error al obtener datos");
+    const body = await res.json().catch(() => null);
+    const message =
+      res.status === 404
+        ? "Not found on FACEIT."
+        : (body?.error ?? `Error ${res.status} while fetching data`);
+    throw new Error(message);
   }
 
-  return await res.json();
+  return res.json();
 }
 
-//return the team data for a given team id
-export async function fetchTeamData(teamId: string) {
-  const res = await fetch(`${API_URL}/teamById/${teamId}`);
-
-  if (!res.ok) {
-    throw new Error("Error al obtener datos");
-  }
-
-  return await res.json();
+export function searchTeams(name: string, signal?: AbortSignal) {
+  return apiGet<FaceitTeam[]>(
+    `/teams/search?q=${encodeURIComponent(name)}`,
+    signal,
+  );
 }
 
-//return an array of matches for a given team id
-export async function fetchMatches(teamId: string) {
-  const res = await fetch(`${API_URL}/matches/${teamId}`);
-
-  if (!res.ok) {
-    throw new Error("Error al obtener datos");
-  }
-
-  return await res.json();
+export function fetchTeamAnalysis(teamId: string, signal?: AbortSignal) {
+  return apiGet<TeamAnalysis>(
+    `/teams/${encodeURIComponent(teamId)}/analysis`,
+    signal,
+  );
 }
 
-//return the vetos for a given match id
-export async function fetchMatchVetos(matchId: string) {
-  const res = await fetch(`${API_URL}/vetos/${matchId}`);
-
-  if (!res.ok) {
-    throw new Error("Error al obtener datos");
-  }
-
-  return await res.json();
+export function fetchLeagueOverview(teamId: string, signal?: AbortSignal) {
+  return apiGet<LeagueOverview>(
+    `/teams/${encodeURIComponent(teamId)}/league-overview`,
+    signal,
+  );
 }
 
-//return the match data for a given match id
-export async function fetchMatchData(matchId: string) {
-  const res = await fetch(`${API_URL}/match/${matchId}`);
-
-  if (!res.ok) {
-    throw new Error("Error al obtener datos");
-  }
-
-  return await res.json();
-}
-
-//return league details for a given team id
-export async function fetchLeagueData(teamId: string) {
-  const res = await fetch(`${API_URL}/team/${teamId}/league`);
-
-  if (!res.ok) {
-    throw new Error("Error al obtener datos");
-  }
-
-  return await res.json();
+export function fetchTeam(teamId: string, signal?: AbortSignal) {
+  return apiGet<FaceitTeam>(`/teams/${encodeURIComponent(teamId)}`, signal);
 }
