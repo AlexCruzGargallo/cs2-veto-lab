@@ -134,19 +134,6 @@ export function buildAnalyzedMatch({ teamId, league, match, vetos, stats, detail
     return "draw";
   };
 
-  const playersByMap = playerStatsByMap(stats, teamId);
-  const playedMaps: string[] = match.voting?.map?.pick ?? [];
-  const detailed: any[] = match.detailed_results ?? [];
-  const maps: MapResult[] = detailed
-    .map((d, i) => ({
-      map: playedMaps[i],
-      us: num(d.factions?.[us]?.score),
-      them: num(d.factions?.[them]?.score),
-      result: resultFor(d.winner),
-      players: playersByMap.get(playedMaps[i]) ?? playersByMap.get(`#${i + 1}`) ?? [],
-    }))
-    .filter((m) => m.map);
-
   const mapTicket = vetos?.payload?.tickets?.find((t: any) => t.entity_type === "map");
   const vetoSteps: VetoStep[] = (mapTicket?.entities ?? [])
     .filter((e: any) => e.status === "pick" || e.status === "drop")
@@ -166,6 +153,32 @@ export function buildAnalyzedMatch({ teamId, league, match, vetos, stats, detail
   if (last?.action === "pick" && vetoSteps.length === mapTicket?.entities?.length) {
     last.decider = true;
   }
+
+  // Nombre de cada mapa jugado. Faceit no siempre rellena voting.map.pick
+  // (hay partidos jugados sin él): entonces sale de las estadísticas y, si
+  // tampoco hay, de los picks del veto (en orden, con el decider al final).
+  const playersByMap = playerStatsByMap(stats, teamId);
+  const votedMaps: string[] = match.voting?.map?.pick ?? [];
+  const statsMaps: string[] = (stats?.rounds ?? []).map((r: any) => r.round_stats?.Map);
+  const vetoMaps = vetoSteps.filter((v) => v.action === "pick").map((v) => v.map);
+  const mapNameAt = (i: number): string | undefined => votedMaps[i] ?? statsMaps[i] ?? vetoMaps[i];
+
+  const detailed: any[] = match.detailed_results ?? [];
+  const maps: MapResult[] = detailed
+    .map((d, i) => ({
+      map: mapNameAt(i) as string,
+      us: num(d.factions?.[us]?.score),
+      them: num(d.factions?.[them]?.score),
+      result: resultFor(d.winner),
+      players: playersByMap.get(mapNameAt(i) ?? "") ?? playersByMap.get(`#${i + 1}`) ?? [],
+    }))
+    // Un "mapa" 1-0 / 0-1 es un forfeit (el rival no se presentó), no un mapa
+    // jugado: no debe contar para el win rate ni la diferencia de rondas.
+    .filter((m) => m.map && Math.max(m.us, m.them) > 1);
+
+  // Forfeit: el partido terminó sin que se jugara ningún mapa de verdad. Su
+  // veto suele estar hecho automáticamente por Faceit, así que no cuenta.
+  const forfeit = match.status === "FINISHED" && maps.length === 0 && vetoSteps.length > 0;
 
   const roster = rosterOf(match, details, stats, us);
   const opponentRoster = rosterOf(match, details, stats, them);
@@ -197,6 +210,7 @@ export function buildAnalyzedMatch({ teamId, league, match, vetos, stats, detail
     },
     maps,
     vetos: vetoSteps,
+    forfeit,
     roster,
     teamElo: averageElo(roster),
     opponentElo: averageElo(opponentRoster),

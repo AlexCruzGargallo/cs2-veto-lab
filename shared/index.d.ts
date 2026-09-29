@@ -69,6 +69,8 @@ export interface VetoStep {
   action: "pick" | "drop";
   // null cuando Faceit no atribuye el paso a ningún equipo (p. ej. aleatorio).
   by: Side | null;
+  // Elegido automáticamente por Faceit (el equipo no votó a tiempo, o no se
+  // presentó): no es una decisión real del equipo.
   random: boolean;
   // Mapa que queda al final del veto (no lo elige ningún equipo).
   decider: boolean;
@@ -96,6 +98,9 @@ export interface AnalyzedMatch {
   score: { us: number; them: number };
   maps: MapResult[];
   vetos: VetoStep[];
+  // Terminó sin jugarse ningún mapa (un equipo no se presentó). No cuenta en
+  // las estadísticas; su veto suele ser automático.
+  forfeit: boolean;
   // Los 5 jugadores nuestros que jugaron el partido.
   roster: RosterPlayer[];
   // ELO medio de cada equipo en ese partido (null si no hay datos).

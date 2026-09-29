@@ -39,7 +39,8 @@ export function analyzeRoster(
   lineup?: string[],
   currentElo: Record<string, number> = {},
 ): RosterAnalysis {
-  const sorted = [...matches].filter((m) => m.roster.length > 0).sort((a, b) => b.date - a.date);
+  // Los forfeits no cuentan: nadie jugó.
+  const sorted = [...matches].filter((m) => m.roster.length > 0 && !m.forfeit).sort((a, b) => b.date - a.date);
   const byId = new Map<string, RosterEntry>();
 
   for (const m of sorted) {

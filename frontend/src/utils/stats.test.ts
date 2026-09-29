@@ -120,6 +120,58 @@ describe("pool activo", () => {
   });
 });
 
+describe("forfeits y vetos automáticos", () => {
+  // Forfeit: el rival no se presentó, Faceit vetó por él y dio el partido 1-0.
+  const ff = match({
+    forfeit: true,
+    result: "win",
+    maps: [],
+    vetos: [
+      { ...step(1, "de_mirage", "drop", "them"), random: true },
+      step(2, "de_nuke", "drop", "us"),
+      { ...step(3, "de_inferno", "drop", "them"), random: true },
+    ],
+  });
+
+  it("un forfeit no cuenta ni en el récord ni en el veto", () => {
+    const stats = computeTeamStats([ff, bo1]);
+    expect(stats.matches).toMatchObject({ wins: 1, total: 1 });
+    expect(stats.vetoedMatches).toBe(1);
+    // Nuke: sólo el ban del BO1 jugado; el del forfeit no suma.
+    expect(stats.mapStats.find((s) => s.map === "de_nuke")?.bans).toBe(1);
+  });
+
+  it("los pasos automáticos no cuentan como pick ni ban de nadie", () => {
+    const auto = match({
+      maps: [{ map: "de_dust2", us: 13, them: 4, result: "win" }],
+      vetos: [
+        { ...step(1, "de_ancient", "drop", "us"), random: true },
+        step(2, "de_nuke", "drop", "them"),
+        step(3, "de_mirage", "drop", "us"),
+        step(4, "de_dust2", "pick", null, true),
+      ],
+    });
+    const stats = computeTeamStats([auto]);
+    const ancient = stats.mapStats.find((s) => s.map === "de_ancient");
+    expect(ancient?.bans ?? 0).toBe(0);
+    // Mirage fue su primer ban REAL, pero no su primer ban del veto: el
+    // automático ocupó ese lugar, así que no cuenta como "first ban".
+    expect(stats.mapStats.find((s) => s.map === "de_mirage")).toMatchObject({ bans: 1, firstBans: 0 });
+  });
+
+  it("si todos los pasos del equipo fueron automáticos, ese veto no cuenta como suyo", () => {
+    const allAuto = match({
+      maps: [{ map: "de_dust2", us: 5, them: 13, result: "loss" }],
+      vetos: [
+        { ...step(1, "de_ancient", "drop", "us"), random: true },
+        step(2, "de_nuke", "drop", "them"),
+        { ...step(3, "de_mirage", "drop", "us"), random: true },
+      ],
+    });
+    expect(computeTeamStats([allAuto]).vetoedMatches).toBe(0);
+  });
+});
+
 describe("filterMatches", () => {
   it("filtra por competición y formato", () => {
     const all = [bo3, bo1];

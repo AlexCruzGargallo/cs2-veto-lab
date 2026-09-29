@@ -1,0 +1,973 @@
+{
+  "teamId": "ae1adb05-8709-4330-8e29-98e5a0feac3d",
+  "match": {
+    "match_id": "1-60fe0f08-7142-477b-a38a-8535f3892582",
+    "version": 2,
+    "game": "cs2",
+    "region": "EU",
+    "competition_id": "54f32bd1-55d3-4353-8818-79f57ef7a65b",
+    "competition_type": "championship",
+    "competition_name": "S58 EU Main A - Regular Season",
+    "organizer_id": "08b06cfc-74d0-454b-9a51-feda4b6b18da",
+    "teams": {
+      "faction1": {
+        "faction_id": "ae1adb05-8709-4330-8e29-98e5a0feac3d",
+        "leader": "380fbce4-5fb5-4270-a886-38a579992518",
+        "avatar": "https://distribution.faceit-cdn.net/images/38a9a793-214a-4816-ad65-6cd3bb1e609b.jpeg",
+        "roster": [
+          {
+            "player_id": "380fbce4-5fb5-4270-a886-38a579992518",
+            "nickname": "PhilliPollas",
+            "avatar": "https://distribution.faceit-cdn.net/images/8cbf766c-b6cc-46d8-9348-d64c5016f063.jpg",
+            "membership": "esea",
+            "game_player_id": "76561197995221225",
+            "game_player_name": "botijopeek",
+            "game_skill_level": 10,
+            "anticheat_required": true
+          },
+          {
+            "player_id": "10c2de32-fc83-4ad3-904b-b2c9eb36c19b",
+            "nickname": "verso-oreat",
+            "avatar": "https://distribution.faceit-cdn.net/images/2a4c006a-82d5-4716-b605-b5dacb56461f.jpg",
+            "membership": "premium",
+            "game_player_id": "76561197992388629",
+            "game_player_name": "taero ✘",
+            "game_skill_level": 10,
+            "anticheat_required": true
+          },
+          {
+            "player_id": "1fbe6142-09b2-4622-a62e-6fddacd92986",
+            "nickname": "MiguiZer4-",
+            "avatar": "https://distribution.faceit-cdn.net/images/de6c6ea9-c233-4c51-9b0c-7ce1b2b15488.jpg",
+            "membership": "esea",
+            "game_player_id": "76561198081764796",
+            "game_player_name": "MiguiZera",
+            "game_skill_level": 10,
+            "anticheat_required": true
+          },
+          {
+            "player_id": "e14b961c-e293-429b-83ea-77161d27d218",
+            "nickname": "nmt",
+            "avatar": "https://assets.faceit-cdn.net/avatars/e14b961c-e293-429b-83ea-77161d27d218_1593681225738.jpg",
+            "membership": "premium",
+            "game_player_id": "76561198071132023",
+            "game_player_name": "NMT",
+            "game_skill_level": 10,
+            "anticheat_required": true
+          }
+        ],
+        "substitutes": [
+          {
+            "player_id": "d57e085a-6a75-4b8c-9d5f-928c80035b65",
+            "nickname": "LauuX",
+            "avatar": "https://distribution.faceit-cdn.net/images/1785f588-ab35-465e-8bd3-0afe10460f98.jpeg",
+            "membership": "esea",
+            "game_player_id": "76561198080227949",
+            "game_player_name": "LauuX *T",
+            "game_skill_level": 0,
+            "anticheat_required": true,
+            "playing": true
+          },
+          {
+            "player_id": "076f7c41-e9a1-481f-89cd-fef11b01641c",
+            "nickname": "Adr1sto",
+            "avatar": "https://distribution.faceit-cdn.net/images/27dedbac-6d70-48dd-adb6-b18fff09f889.jpeg",
+            "membership": "premium",
+            "game_player_id": "76561198334962991",
+            "game_player_name": "Adr1sto",
+            "game_skill_level": 10,
+            "anticheat_required": true,
+            "playing": true
+          }
+        ],
+        "substituted": true,
+        "name": "CarritoSpain",
+        "type": "premade"
+      },
+      "faction2": {
+        "faction_id": "6641e01f-49f2-4752-9e70-faf7d45eda3a",
+        "leader": "eb29cbc2-d695-4b38-a015-b87dac6efcb7",
+        "avatar": "https://distribution.faceit-cdn.net/images/70a9c3d4-7c79-4f37-baa6-23290bbc0c82.jpg",
+        "roster": [
+          {
+            "player_id": "eb29cbc2-d695-4b38-a015-b87dac6efcb7",
+            "nickname": "m0xsy",
+            "avatar": "https://distribution.faceit-cdn.net/images/716f18b7-6195-4717-b053-53a6146e4372.jpg",
+            "membership": "premium",
+            "game_player_id": "76561199020358268",
+            "game_player_name": "butterfly effect",
+            "game_skill_level": 10,
+            "anticheat_required": true
+          },
+          {
+            "player_id": "1b23c12c-dd98-4871-b2cf-ce62f4d9f4cd",
+            "nickname": "FOX-_-",
+            "avatar": "https://distribution.faceit-cdn.net/images/6f63212c-9774-4b60-9798-fbbe2750520e.jpeg",
+            "membership": "esea",
+            "game_player_id": "76561199009864831",
+            "game_player_name": "₣ῸẊ",
+            "game_skill_level": 10,
+            "anticheat_required": true
+          },
+          {
+            "player_id": "1f8a38cb-195c-4ee1-bc1b-0f525f2c1dc0",
+            "nickname": "xNoClip",
+            "avatar": "https://distribution.faceit-cdn.net/images/0dafba88-5bd5-4f74-bdd3-4a270f6cc016.jpeg",
+            "membership": "esea",
+            "game_player_id": "76561198848678698",
+            "game_player_name": "NCL-",
+            "game_skill_level": 10,
+            "anticheat_required": true
+          },
+          {
+            "player_id": "d943a6d0-829a-4016-8844-77aa46ac29b6",
+            "nickname": "ayzZn",
+            "avatar": "https://assets.faceit-cdn.net/avatars/d943a6d0-829a-4016-8844-77aa46ac29b6_1550543734406.jpg",
+            "membership": "esea",
+            "game_player_id": "76561198023544533",
+            "game_player_name": "ayzn",
+            "game_skill_level": 0,
+            "anticheat_required": true
+          }
+        ],
+        "substitutes": [
+          {
+            "player_id": "835047fa-11b8-44df-aff2-df367bacc016",
+            "nickname": "domin0o_",
+            "avatar": "",
+            "membership": "esea",
+            "game_player_id": "76561199076770379",
+            "game_player_name": "domin0o",
+            "game_skill_level": 10,
+            "anticheat_required": true,
+            "playing": true
+          }
+        ],
+        "substituted": true,
+        "name": "GREAT",
+        "type": "premade"
+      }
+    },
+    "voting": {
+      "voted_entity_types": [
+        "map"
+      ],
+      "map": {
+        "entities": [
+          {
+            "class_name": "de_dust2",
+            "game_map_id": "de_dust2",
+            "guid": "de_dust2",
+            "image_lg": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/7c17caa9-64a6-4496-8a0b-885e0f038d79_1695819126962.jpeg",
+            "image_sm": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/adf58ac6-b0f3-40e9-87ef-0af23fc60918_1695819116078.jpeg",
+            "name": "Dust2"
+          },
+          {
+            "class_name": "de_mirage",
+            "game_map_id": "de_mirage",
+            "guid": "de_mirage",
+            "image_lg": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/7fb7d725-e44d-4e3c-b557-e1d19b260ab8_1695819144685.jpeg",
+            "image_sm": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/796b5b23-41e4-4387-a4a9-0d28c1c57456_1695819136505.jpeg",
+            "name": "Mirage"
+          },
+          {
+            "class_name": "de_nuke",
+            "game_map_id": "de_nuke",
+            "guid": "de_nuke",
+            "image_lg": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/7197a969-81e4-4fef-8764-55f46c7cec6e_1695819158849.jpeg",
+            "image_sm": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/15ff938d-a70d-4d0b-9bf9-6be215cdb193_1695819151395.jpeg",
+            "name": "Nuke"
+          },
+          {
+            "image_lg": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/5b844241-5b15-45bf-a304-ad6df63b5ce5_1695819190976.jpeg",
+            "image_sm": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/a7d193ca-9498-4546-bf7b-da33e3e429a5_1695819186093.jpeg",
+            "name": "Ancient",
+            "class_name": "de_ancient",
+            "game_map_id": "de_ancient",
+            "guid": "de_ancient"
+          },
+          {
+            "game_map_id": "de_inferno",
+            "guid": "de_inferno",
+            "image_lg": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/993380de-bb5b-4aa1-ada9-a0c1741dc475_1695819220797.jpeg",
+            "image_sm": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/a2cb95be-1a3f-49f3-a5fa-a02503d02086_1695819214782.jpeg",
+            "name": "Inferno",
+            "class_name": "de_inferno"
+          },
+          {
+            "game_map_id": "de_anubis",
+            "guid": "de_anubis",
+            "image_lg": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/31f01daf-e531-43cf-b949-c094ebc9b3ea_1695819235255.jpeg",
+            "image_sm": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/847a46ed-fbcc-4347-a64a-bc2d6a24be89_1695819226252.jpeg",
+            "name": "Anubis",
+            "class_name": "de_anubis"
+          },
+          {
+            "name": "Cache",
+            "class_name": "de_cache",
+            "game_map_id": "de_cache",
+            "guid": "de_cache",
+            "image_lg": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/84fdec54-0c4b-424b-860d-7477495ea026_1741030140483.jpeg",
+            "image_sm": "https://assets.faceit-cdn.net/third_party/games/ce652bd4-0abb-4c90-9936-1133965ca38b/assets/votables/db483b30-8cbb-488f-8105-0b60c111cc9a_1741030130806.jpeg"
+          }
+        ],
+        "pick": [
+          "de_nuke"
+        ]
+      }
+    },
+    "calculate_elo": false,
+    "scheduled_at": 1787855400,
+    "configured_at": 1787855514,
+    "started_at": 1787855856,
+    "finished_at": 1787857634,
+    "demo_url": [
+      "https://demos-europe-central.backblaze.faceit-cdn.net/cs2/1-60fe0f08-7142-477b-a38a-8535f3892582-1-1.dem.zst"
+    ],
+    "chat_room_id": "match-1-60fe0f08-7142-477b-a38a-8535f3892582",
+    "best_of": 1,
+    "results": {
+      "winner": "faction1",
+      "score": {
+        "faction1": 13,
+        "faction2": 4
+      }
+    },
+    "detailed_results": [
+      {
+        "asc_score": false,
+        "winner": "faction1",
+        "factions": {
+          "faction1": {
+            "score": 13
+          },
+          "faction2": {
+            "score": 4
+          }
+        }
+      }
+    ],
+    "status": "FINISHED",
+    "round": 14,
+    "group": 1,
+    "faceit_url": "https://www.faceit.com/{lang}/cs2/room/1-60fe0f08-7142-477b-a38a-8535f3892582",
+    "instances": [
+      {
+        "id": "1-60fe0f08-7142-477b-a38a-8535f3892582-1-1",
+        "round": 1,
+        "demos": [
+          "https://demos-europe-central.backblaze.faceit-cdn.net/cs2/1-60fe0f08-7142-477b-a38a-8535f3892582-1-1.dem.zst"
+        ]
+      }
+    ]
+  },
+  "vetos": {
+    "payload": {
+      "match_id": "1-60fe0f08-7142-477b-a38a-8535f3892582",
+      "tickets": [
+        {
+          "entities": [
+            {
+              "guid": "team_a",
+              "status": "drop",
+              "random": false,
+              "round": 0,
+              "selected_by": ""
+            },
+            {
+              "guid": "team_b",
+              "status": "pick",
+              "random": false,
+              "round": 1,
+              "selected_by": "faction1"
+            }
+          ],
+          "entity_type": "first_voter",
+          "vote_type": "drop_pick"
+        },
+        {
+          "entities": [
+            {
+              "guid": "de_dust2",
+              "status": "drop",
+              "random": true,
+              "round": 1,
+              "selected_by": "faction2"
+            },
+            {
+              "guid": "de_anubis",
+              "status": "drop",
+              "random": false,
+              "round": 2,
+              "selected_by": "faction1"
+            },
+            {
+              "guid": "de_mirage",
+              "status": "drop",
+              "random": false,
+              "round": 3,
+              "selected_by": "faction1"
+            },
+            {
+              "guid": "de_inferno",
+              "status": "drop",
+              "random": false,
+              "round": 4,
+              "selected_by": "faction2"
+            },
+            {
+              "guid": "de_cache",
+              "status": "drop",
+              "random": false,
+              "round": 5,
+              "selected_by": "faction2"
+            },
+            {
+              "guid": "de_ancient",
+              "status": "drop",
+              "random": false,
+              "round": 6,
+              "selected_by": "faction1"
+            },
+            {
+              "guid": "de_nuke",
+              "status": "pick",
+              "random": false,
+              "round": 7,
+              "selected_by": "faction2"
+            }
+          ],
+          "entity_type": "map",
+          "vote_type": "drop_pick"
+        }
+      ]
+    }
+  },
+  "stats": {
+    "rounds": [
+      {
+        "best_of": "1",
+        "competition_id": "54f32bd1-55d3-4353-8818-79f57ef7a65b",
+        "game_id": "cs2",
+        "game_mode": "5v5",
+        "match_id": "1-60fe0f08-7142-477b-a38a-8535f3892582",
+        "match_round": "1",
+        "played": "1",
+        "round_stats": {
+          "Score": "13 / 4",
+          "Winner": "ae1adb05-8709-4330-8e29-98e5a0feac3d",
+          "Region": "EU",
+          "Map": "de_nuke",
+          "Rounds": "17"
+        },
+        "teams": [
+          {
+            "team_id": "ae1adb05-8709-4330-8e29-98e5a0feac3d",
+            "premade": true,
+            "team_stats": {
+              "First Half Score": "8",
+              "Second Half Score": "5",
+              "Team": "CarritoSpain",
+              "Team Win": "1",
+              "Final Score": "13",
+              "Team Headshots": "8.4",
+              "Overtime score": "0"
+            },
+            "players": [
+              {
+                "player_id": "10c2de32-fc83-4ad3-904b-b2c9eb36c19b",
+                "nickname": "verso-oreat",
+                "player_stats": {
+                  "Entry Count": "4",
+                  "Flashes per Round in a Match": "0.71",
+                  "Double Kills": "2",
+                  "1v1Count": "1",
+                  "Match Entry Rate": "0.24",
+                  "Flash Count": "12",
+                  "ADR": "91.5",
+                  "Sniper Kill Rate per Round": "0",
+                  "Headshots %": "67",
+                  "Utility Damage Success Rate per Match": "9.7",
+                  "Zeus Kills": "0",
+                  "Clutch Kills": "1",
+                  "Kills": "15",
+                  "Damage": "1556",
+                  "Match 1v2 Win Rate": "0",
+                  "Sniper Kill Rate per Match": "0",
+                  "Utility Count": "10",
+                  "Utility Enemies": "2",
+                  "Pistol Kills": "0",
+                  "K/R Ratio": "0.88",
+                  "Penta Kills": "0",
+                  "1v2Count": "0",
+                  "Knife Kills": "0",
+                  "Sniper Kills": "0",
+                  "Match Entry Success Rate": "0.75",
+                  "Utility Successes": "2",
+                  "Headshots": "10",
+                  "Flash Successes": "5",
+                  "Utility Usage per Round": "0.59",
+                  "Utility Success Rate per Match": "0.2",
+                  "Utility Damage": "97",
+                  "First Kills": "3",
+                  "Flash Success Rate per Match": "0.42",
+                  "MVPs": "3",
+                  "Enemies Flashed per Round in a Match": "0.47",
+                  "Assists": "6",
+                  "Match 1v1 Win Rate": "1",
+                  "Triple Kills": "2",
+                  "K/D Ratio": "1.67",
+                  "1v2Wins": "0",
+                  "1v1Wins": "1",
+                  "Result": "1",
+                  "Utility Damage per Round in a Match": "5.71",
+                  "Quadro Kills": "0",
+                  "Entry Wins": "3",
+                  "Deaths": "9",
+                  "Enemies Flashed": "8"
+                }
+              },
+              {
+                "player_id": "1fbe6142-09b2-4622-a62e-6fddacd92986",
+                "nickname": "MiguiZer4-",
+                "player_stats": {
+                  "Utility Count": "5",
+                  "Triple Kills": "0",
+                  "Assists": "3",
+                  "Result": "1",
+                  "First Kills": "0",
+                  "MVPs": "0",
+                  "Match 1v2 Win Rate": "0",
+                  "Match Entry Rate": "0.06",
+                  "Entry Wins": "0",
+                  "Utility Successes": "0",
+                  "Utility Enemies": "0",
+                  "Damage": "797",
+                  "Flash Count": "6",
+                  "Utility Damage per Round in a Match": "2.06",
+                  "Penta Kills": "0",
+                  "Flash Success Rate per Match": "0.33",
+                  "K/R Ratio": "0.29",
+                  "1v2Count": "0",
+                  "Utility Damage": "35",
+                  "Clutch Kills": "0",
+                  "Utility Usage per Round": "0.29",
+                  "Knife Kills": "0",
+                  "Enemies Flashed per Round in a Match": "0.12",
+                  "K/D Ratio": "0.62",
+                  "Zeus Kills": "0",
+                  "1v2Wins": "0",
+                  "Match 1v1 Win Rate": "0",
+                  "Utility Damage Success Rate per Match": "7",
+                  "Utility Success Rate per Match": "0",
+                  "Entry Count": "1",
+                  "Sniper Kill Rate per Round": "0",
+                  "Enemies Flashed": "2",
+                  "Quadro Kills": "0",
+                  "1v1Count": "0",
+                  "Flash Successes": "2",
+                  "Headshots": "1",
+                  "Sniper Kills": "0",
+                  "Deaths": "8",
+                  "1v1Wins": "0",
+                  "Sniper Kill Rate per Match": "0",
+                  "Flashes per Round in a Match": "0.35",
+                  "ADR": "46.9",
+                  "Headshots %": "20",
+                  "Kills": "5",
+                  "Pistol Kills": "0",
+                  "Match Entry Success Rate": "0",
+                  "Double Kills": "0"
+                }
+              },
+              {
+                "player_id": "e14b961c-e293-429b-83ea-77161d27d218",
+                "nickname": "nmt",
+                "player_stats": {
+                  "Kills": "20",
+                  "Assists": "3",
+                  "K/R Ratio": "1.18",
+                  "Utility Usage per Round": "0.35",
+                  "Utility Success Rate per Match": "0.5",
+                  "Enemies Flashed": "4",
+                  "Sniper Kill Rate per Round": "0",
+                  "Flashes per Round in a Match": "0.29",
+                  "K/D Ratio": "2.5",
+                  "Triple Kills": "3",
+                  "Headshots": "14",
+                  "MVPs": "4",
+                  "ADR": "102",
+                  "Utility Damage Success Rate per Match": "40.5",
+                  "Quadro Kills": "0",
+                  "Sniper Kills": "0",
+                  "Match Entry Rate": "0.24",
+                  "Utility Damage": "243",
+                  "Utility Enemies": "5",
+                  "First Kills": "2",
+                  "Pistol Kills": "2",
+                  "Entry Wins": "2",
+                  "Flash Successes": "3",
+                  "Match 1v1 Win Rate": "0",
+                  "Enemies Flashed per Round in a Match": "0.24",
+                  "1v1Count": "2",
+                  "Knife Kills": "0",
+                  "Flash Count": "5",
+                  "Flash Success Rate per Match": "0.6",
+                  "Double Kills": "3",
+                  "Match 1v2 Win Rate": "0",
+                  "Sniper Kill Rate per Match": "0",
+                  "1v1Wins": "0",
+                  "Penta Kills": "0",
+                  "1v2Wins": "0",
+                  "Match Entry Success Rate": "0.5",
+                  "Utility Count": "6",
+                  "Damage": "1734",
+                  "Deaths": "8",
+                  "Zeus Kills": "0",
+                  "Result": "1",
+                  "Entry Count": "4",
+                  "1v2Count": "0",
+                  "Headshots %": "70",
+                  "Utility Successes": "3",
+                  "Clutch Kills": "0",
+                  "Utility Damage per Round in a Match": "14.29"
+                }
+              },
+              {
+                "player_id": "380fbce4-5fb5-4270-a886-38a579992518",
+                "nickname": "PhilliPollas",
+                "player_stats": {
+                  "1v2Count": "0",
+                  "Headshots": "14",
+                  "Sniper Kills": "0",
+                  "Match Entry Success Rate": "1",
+                  "Flash Success Rate per Match": "0",
+                  "Utility Damage": "46",
+                  "ADR": "144",
+                  "Match 1v2 Win Rate": "0",
+                  "First Kills": "8",
+                  "Utility Damage Success Rate per Match": "5.11",
+                  "1v1Wins": "0",
+                  "Entry Count": "8",
+                  "Flash Successes": "0",
+                  "Penta Kills": "0",
+                  "Enemies Flashed": "0",
+                  "K/D Ratio": "2.44",
+                  "Match 1v1 Win Rate": "0",
+                  "Utility Usage per Round": "0.53",
+                  "Headshots %": "64",
+                  "MVPs": "4",
+                  "Zeus Kills": "0",
+                  "1v2Wins": "0",
+                  "Utility Successes": "2",
+                  "Result": "1",
+                  "Sniper Kill Rate per Round": "0",
+                  "Sniper Kill Rate per Match": "0",
+                  "Quadro Kills": "2",
+                  "Pistol Kills": "8",
+                  "Utility Count": "9",
+                  "Utility Enemies": "4",
+                  "Triple Kills": "1",
+                  "Flash Count": "1",
+                  "Assists": "3",
+                  "Damage": "2448",
+                  "K/R Ratio": "1.29",
+                  "Double Kills": "2",
+                  "1v1Count": "0",
+                  "Entry Wins": "8",
+                  "Kills": "22",
+                  "Deaths": "9",
+                  "Match Entry Rate": "0.47",
+                  "Flashes per Round in a Match": "0.06",
+                  "Utility Success Rate per Match": "0.22",
+                  "Knife Kills": "0",
+                  "Utility Damage per Round in a Match": "2.71",
+                  "Enemies Flashed per Round in a Match": "0",
+                  "Clutch Kills": "0"
+                }
+              },
+              {
+                "player_id": "076f7c41-e9a1-481f-89cd-fef11b01641c",
+                "nickname": "Adr1sto",
+                "player_stats": {
+                  "Utility Enemies": "3",
+                  "Sniper Kill Rate per Match": "0.55",
+                  "Triple Kills": "0",
+                  "Kills": "11",
+                  "Headshots": "3",
+                  "Headshots %": "27",
+                  "Penta Kills": "0",
+                  "First Kills": "0",
+                  "Utility Count": "10",
+                  "1v1Wins": "0",
+                  "K/D Ratio": "1.57",
+                  "Clutch Kills": "0",
+                  "Match 1v1 Win Rate": "0",
+                  "Utility Usage per Round": "0.59",
+                  "Assists": "4",
+                  "Utility Damage": "20",
+                  "Double Kills": "2",
+                  "Pistol Kills": "0",
+                  "1v2Wins": "0",
+                  "Zeus Kills": "0",
+                  "Quadro Kills": "0",
+                  "1v1Count": "0",
+                  "Sniper Kills": "6",
+                  "ADR": "62.5",
+                  "Match Entry Success Rate": "0",
+                  "Result": "1",
+                  "1v2Count": "0",
+                  "Sniper Kill Rate per Round": "0.35",
+                  "Damage": "1062",
+                  "Utility Successes": "2",
+                  "Match 1v2 Win Rate": "0",
+                  "Utility Damage Success Rate per Match": "2",
+                  "Entry Count": "0",
+                  "Flash Count": "7",
+                  "Match Entry Rate": "0",
+                  "Knife Kills": "0",
+                  "Utility Damage per Round in a Match": "1.18",
+                  "MVPs": "2",
+                  "Enemies Flashed per Round in a Match": "0.24",
+                  "Flashes per Round in a Match": "0.41",
+                  "Flash Success Rate per Match": "0.29",
+                  "Entry Wins": "0",
+                  "Utility Success Rate per Match": "0.2",
+                  "Enemies Flashed": "4",
+                  "K/R Ratio": "0.65",
+                  "Flash Successes": "2",
+                  "Deaths": "7"
+                }
+              }
+            ]
+          },
+          {
+            "team_id": "6641e01f-49f2-4752-9e70-faf7d45eda3a",
+            "premade": true,
+            "team_stats": {
+              "Team Win": "0",
+              "Team Headshots": "4.2",
+              "Overtime score": "0",
+              "Team": "GREAT",
+              "Final Score": "4",
+              "First Half Score": "4",
+              "Second Half Score": "0"
+            },
+            "players": [
+              {
+                "player_id": "1b23c12c-dd98-4871-b2cf-ce62f4d9f4cd",
+                "nickname": "FOX-_-",
+                "player_stats": {
+                  "Sniper Kill Rate per Match": "0",
+                  "Utility Usage per Round": "0.65",
+                  "Sniper Kills": "0",
+                  "Flash Successes": "4",
+                  "Utility Damage per Round in a Match": "2.59",
+                  "1v2Wins": "0",
+                  "Flash Success Rate per Match": "0.67",
+                  "Match Entry Rate": "0.12",
+                  "K/D Ratio": "0.21",
+                  "Sniper Kill Rate per Round": "0",
+                  "Utility Success Rate per Match": "0.09",
+                  "Headshots": "2",
+                  "Damage": "587",
+                  "First Kills": "0",
+                  "K/R Ratio": "0.18",
+                  "Utility Enemies": "1",
+                  "Zeus Kills": "0",
+                  "1v2Count": "0",
+                  "Headshots %": "67",
+                  "Utility Damage Success Rate per Match": "4",
+                  "Quadro Kills": "0",
+                  "1v1Wins": "0",
+                  "Clutch Kills": "0",
+                  "MVPs": "0",
+                  "Triple Kills": "0",
+                  "Double Kills": "0",
+                  "Match 1v2 Win Rate": "0",
+                  "Deaths": "14",
+                  "Assists": "5",
+                  "Utility Successes": "1",
+                  "Entry Count": "2",
+                  "Utility Damage": "44",
+                  "1v1Count": "0",
+                  "Enemies Flashed": "5",
+                  "Entry Wins": "0",
+                  "Flashes per Round in a Match": "0.35",
+                  "Enemies Flashed per Round in a Match": "0.29",
+                  "Knife Kills": "0",
+                  "Flash Count": "6",
+                  "Kills": "3",
+                  "Utility Count": "11",
+                  "Result": "0",
+                  "Penta Kills": "0",
+                  "Match 1v1 Win Rate": "0",
+                  "Pistol Kills": "0",
+                  "ADR": "34.5",
+                  "Match Entry Success Rate": "0"
+                }
+              },
+              {
+                "player_id": "eb29cbc2-d695-4b38-a015-b87dac6efcb7",
+                "nickname": "m0xsy",
+                "player_stats": {
+                  "Utility Enemies": "2",
+                  "Triple Kills": "0",
+                  "Utility Success Rate per Match": "0.33",
+                  "MVPs": "0",
+                  "Quadro Kills": "0",
+                  "1v2Wins": "0",
+                  "Zeus Kills": "0",
+                  "Flashes per Round in a Match": "0.82",
+                  "Knife Kills": "0",
+                  "Match 1v2 Win Rate": "0",
+                  "Utility Damage per Round in a Match": "0.35",
+                  "Damage": "749",
+                  "Utility Damage": "6",
+                  "Match 1v1 Win Rate": "0",
+                  "Match Entry Success Rate": "0.33",
+                  "Kills": "4",
+                  "Assists": "5",
+                  "Clutch Kills": "1",
+                  "Deaths": "15",
+                  "Enemies Flashed": "9",
+                  "Pistol Kills": "3",
+                  "Flash Count": "14",
+                  "Headshots %": "75",
+                  "Sniper Kills": "0",
+                  "K/R Ratio": "0.24",
+                  "Flash Success Rate per Match": "0.43",
+                  "Match Entry Rate": "0.18",
+                  "Double Kills": "0",
+                  "Utility Successes": "1",
+                  "1v1Wins": "0",
+                  "K/D Ratio": "0.27",
+                  "Headshots": "3",
+                  "First Kills": "1",
+                  "Utility Damage Success Rate per Match": "2",
+                  "1v1Count": "0",
+                  "Entry Wins": "1",
+                  "Sniper Kill Rate per Match": "0",
+                  "Utility Count": "3",
+                  "Utility Usage per Round": "0.18",
+                  "Result": "0",
+                  "Enemies Flashed per Round in a Match": "0.53",
+                  "Penta Kills": "0",
+                  "Entry Count": "3",
+                  "Flash Successes": "6",
+                  "Sniper Kill Rate per Round": "0",
+                  "1v2Count": "0",
+                  "ADR": "44.1"
+                }
+              },
+              {
+                "player_id": "1f8a38cb-195c-4ee1-bc1b-0f525f2c1dc0",
+                "nickname": "xNoClip",
+                "player_stats": {
+                  "Entry Count": "2",
+                  "Sniper Kills": "0",
+                  "Sniper Kill Rate per Round": "0",
+                  "Triple Kills": "0",
+                  "Match Entry Rate": "0.12",
+                  "Sniper Kill Rate per Match": "0",
+                  "Flashes per Round in a Match": "0.06",
+                  "Kills": "12",
+                  "1v1Wins": "0",
+                  "K/R Ratio": "0.71",
+                  "Deaths": "15",
+                  "Pistol Kills": "4",
+                  "K/D Ratio": "0.8",
+                  "Clutch Kills": "2",
+                  "Utility Usage per Round": "0.35",
+                  "Damage": "1089",
+                  "Zeus Kills": "0",
+                  "Utility Count": "6",
+                  "Entry Wins": "1",
+                  "Enemies Flashed": "2",
+                  "Match Entry Success Rate": "0.5",
+                  "Assists": "2",
+                  "Flash Successes": "1",
+                  "Utility Damage Success Rate per Match": "0",
+                  "Knife Kills": "0",
+                  "Headshots": "7",
+                  "Utility Damage per Round in a Match": "0",
+                  "1v1Count": "0",
+                  "Penta Kills": "0",
+                  "Flash Success Rate per Match": "1",
+                  "Flash Count": "1",
+                  "First Kills": "1",
+                  "Match 1v1 Win Rate": "0",
+                  "Quadro Kills": "0",
+                  "1v2Count": "1",
+                  "Match 1v2 Win Rate": "1",
+                  "Double Kills": "3",
+                  "MVPs": "3",
+                  "Utility Successes": "0",
+                  "Enemies Flashed per Round in a Match": "0.12",
+                  "Utility Success Rate per Match": "0",
+                  "Utility Enemies": "0",
+                  "Result": "0",
+                  "1v2Wins": "1",
+                  "Headshots %": "58",
+                  "Utility Damage": "0",
+                  "ADR": "64.1"
+                }
+              },
+              {
+                "player_id": "d943a6d0-829a-4016-8844-77aa46ac29b6",
+                "nickname": "ayzZn",
+                "player_stats": {
+                  "Quadro Kills": "0",
+                  "Utility Enemies": "1",
+                  "Utility Damage per Round in a Match": "3.71",
+                  "Sniper Kill Rate per Round": "0",
+                  "Utility Successes": "1",
+                  "First Kills": "0",
+                  "Knife Kills": "0",
+                  "Flash Count": "8",
+                  "Double Kills": "1",
+                  "Damage": "375",
+                  "1v2Count": "2",
+                  "Match Entry Rate": "0.41",
+                  "Result": "0",
+                  "Penta Kills": "0",
+                  "Flash Successes": "4",
+                  "Match 1v1 Win Rate": "0",
+                  "Deaths": "15",
+                  "K/R Ratio": "0.24",
+                  "Utility Damage Success Rate per Match": "21",
+                  "Match Entry Success Rate": "0",
+                  "1v2Wins": "1",
+                  "Triple Kills": "0",
+                  "Assists": "1",
+                  "K/D Ratio": "0.27",
+                  "Sniper Kill Rate per Match": "0",
+                  "1v1Wins": "0",
+                  "Enemies Flashed": "8",
+                  "Headshots %": "50",
+                  "Utility Success Rate per Match": "0.33",
+                  "Pistol Kills": "1",
+                  "Enemies Flashed per Round in a Match": "0.47",
+                  "Flash Success Rate per Match": "0.5",
+                  "Entry Count": "7",
+                  "Headshots": "2",
+                  "Match 1v2 Win Rate": "0.5",
+                  "Utility Count": "3",
+                  "Clutch Kills": "3",
+                  "1v1Count": "0",
+                  "Utility Damage": "63",
+                  "Entry Wins": "0",
+                  "MVPs": "1",
+                  "Flashes per Round in a Match": "0.47",
+                  "Sniper Kills": "0",
+                  "Zeus Kills": "0",
+                  "ADR": "22.1",
+                  "Kills": "4",
+                  "Utility Usage per Round": "0.18"
+                }
+              },
+              {
+                "player_id": "835047fa-11b8-44df-aff2-df367bacc016",
+                "nickname": "domin0o_",
+                "player_stats": {
+                  "Headshots %": "39",
+                  "Result": "0",
+                  "Knife Kills": "0",
+                  "Sniper Kill Rate per Round": "0.12",
+                  "Clutch Kills": "3",
+                  "Utility Enemies": "0",
+                  "Zeus Kills": "0",
+                  "Flashes per Round in a Match": "0.88",
+                  "Entry Count": "3",
+                  "Assists": "3",
+                  "ADR": "111.9",
+                  "Match Entry Success Rate": "0.67",
+                  "Utility Usage per Round": "0",
+                  "Pistol Kills": "6",
+                  "Match 1v2 Win Rate": "0",
+                  "Double Kills": "2",
+                  "K/R Ratio": "1.06",
+                  "Sniper Kill Rate per Match": "0.11",
+                  "Match Entry Rate": "0.18",
+                  "Entry Wins": "2",
+                  "Utility Successes": "0",
+                  "Deaths": "15",
+                  "Headshots": "7",
+                  "1v2Wins": "0",
+                  "Utility Success Rate per Match": "0",
+                  "Damage": "1903",
+                  "1v2Count": "0",
+                  "MVPs": "0",
+                  "Utility Damage per Round in a Match": "0",
+                  "Enemies Flashed per Round in a Match": "1.12",
+                  "Triple Kills": "3",
+                  "1v1Count": "1",
+                  "Flash Success Rate per Match": "0.73",
+                  "Quadro Kills": "0",
+                  "First Kills": "2",
+                  "Utility Damage Success Rate per Match": "0",
+                  "Flash Successes": "11",
+                  "Penta Kills": "0",
+                  "Utility Damage": "0",
+                  "Kills": "18",
+                  "K/D Ratio": "1.2",
+                  "Enemies Flashed": "19",
+                  "Match 1v1 Win Rate": "0",
+                  "1v1Wins": "0",
+                  "Utility Count": "0",
+                  "Sniper Kills": "2",
+                  "Flash Count": "15"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "details": {
+    "status": "FINISHED",
+    "teams": {
+      "faction1": {
+        "roster": [
+          {
+            "id": "380fbce4-5fb5-4270-a886-38a579992518",
+            "elo": 3098
+          },
+          {
+            "id": "10c2de32-fc83-4ad3-904b-b2c9eb36c19b",
+            "elo": 3281
+          },
+          {
+            "id": "1fbe6142-09b2-4622-a62e-6fddacd92986",
+            "elo": 3139
+          },
+          {
+            "id": "e14b961c-e293-429b-83ea-77161d27d218",
+            "elo": 3050
+          }
+        ]
+      },
+      "faction2": {
+        "roster": [
+          {
+            "id": "eb29cbc2-d695-4b38-a015-b87dac6efcb7",
+            "elo": 2726
+          },
+          {
+            "id": "1b23c12c-dd98-4871-b2cf-ce62f4d9f4cd",
+            "elo": 3053
+          },
+          {
+            "id": "1f8a38cb-195c-4ee1-bc1b-0f525f2c1dc0",
+            "elo": 2693
+          },
+          {
+            "id": "d943a6d0-829a-4016-8844-77aa46ac29b6",
+            "elo": 0
+          }
+        ]
+      }
+    }
+  }
+}

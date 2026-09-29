@@ -27,6 +27,10 @@ type VetosTableProps = {
 };
 
 function stepStyle(step: VetoStep) {
+  // Elegido por Faceit (el equipo no votó a tiempo o no se presentó): no cuenta.
+  if (step.random && !step.decider) {
+    return { label: "Auto", color: colors.neutral, filled: false };
+  }
   if (step.decider) {
     return { label: "Decider", color: colors.warn, filled: false };
   }
@@ -42,7 +46,10 @@ function stepStyle(step: VetoStep) {
 
 function VetoChip({ step, label: text }: { step: VetoStep; label?: string }) {
   const { label, color, filled } = stepStyle(step);
-  const title = `Step ${step.round} · ${label}${step.random ? " (random)" : ""}`;
+  const who = step.by === "us" ? "this team" : step.by === "them" ? "the opponent" : "nobody";
+  const title = step.random && !step.decider
+    ? `Step ${step.round} · Picked automatically by FACEIT for ${who} (no vote in time) · not counted`
+    : `Step ${step.round} · ${label}`;
 
   return (
     <Tooltip title={title}>
@@ -57,6 +64,8 @@ function VetoChip({ step, label: text }: { step: VetoStep; label?: string }) {
           textDecoration: step.action === "drop" ? "line-through" : "none",
           textDecorationColor: tint(color, 0.6),
           fontStyle: step.random ? "italic" : "normal",
+          borderStyle: step.random && !step.decider ? "dashed" : "solid",
+          opacity: step.random && !step.decider ? 0.7 : 1,
         }}
       />
     </Tooltip>
@@ -70,6 +79,7 @@ function Legend() {
     { round: 0, map: "Opponent pick", action: "pick", by: "them", random: false, decider: false },
     { round: 0, map: "Opponent ban", action: "drop", by: "them", random: false, decider: false },
     { round: 0, map: "Decider", action: "pick", by: null, random: false, decider: true },
+    { round: 0, map: "Auto (not counted)", action: "drop", by: "us", random: true, decider: false },
   ];
   return (
     <Box sx={{ display: "flex", gap: 0.75, flexWrap: "wrap" }}>
@@ -145,6 +155,15 @@ function MatchResult({ match }: { match: AnalyzedMatch }) {
       <ResultBadge result={match.result}>
         {match.score.us}-{match.score.them}
       </ResultBadge>
+      {match.forfeit && (
+        <Tooltip title="Forfeit: no map was played. Not counted in any stat (its veto is usually automatic).">
+          <Chip
+            size="small"
+            label="FF · not counted"
+            sx={{ ml: 1, height: 18, fontSize: "0.65rem", color: colors.warn, bgcolor: tint(colors.warn, 0.14) }}
+          />
+        </Tooltip>
+      )}
       {match.bestOf > 1 &&
         match.maps.map((m) => (
           <Typography
@@ -194,7 +213,14 @@ const VetosTable = ({ matches, teamId }: VetosTableProps) => {
           {matches.map((match) => (
             <Box
               key={match.matchId}
-              sx={{ px: 2.5, py: 2, borderTop: `1px solid ${colors.border}`, display: "grid", gap: 1.25 }}
+              sx={{
+                px: 2.5,
+                py: 2,
+                borderTop: `1px solid ${colors.border}`,
+                display: "grid",
+                gap: 1.25,
+                opacity: match.forfeit ? 0.6 : 1,
+              }}
             >
               <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
                 <MatchDate match={match} />
@@ -218,7 +244,7 @@ const VetosTable = ({ matches, teamId }: VetosTableProps) => {
             </TableHead>
             <TableBody>
               {matches.map((match) => (
-                <TableRow key={match.matchId} hover sx={{ "& td": { py: 1.5 } }}>
+                <TableRow key={match.matchId} hover sx={{ "& td": { py: 1.5 }, opacity: match.forfeit ? 0.6 : 1 }}>
                   <TableCell sx={{ whiteSpace: "nowrap" }}>
                     <MatchDate match={match} />
                   </TableCell>

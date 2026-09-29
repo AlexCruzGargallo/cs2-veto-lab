@@ -20,6 +20,7 @@ export function makeMatch(overrides: MatchInput = {}): AnalyzedMatch {
     result: "win",
     score: { us: 13, them: 5 },
     vetos: [],
+    forfeit: false,
     roster: [],
     teamElo: null,
     opponentElo: null,

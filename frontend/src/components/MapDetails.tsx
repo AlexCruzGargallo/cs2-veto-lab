@@ -183,7 +183,8 @@ const MapDetails = ({ stats }: MapDetailsProps) => {
       <Typography variant="body2" sx={{ color: "text.secondary", mb: 2, textAlign: "left" }}>
         Ban rate is based on the {stats.vetoedMatches} matches with a recorded veto. Pick rate is based on
         the {stats.pickableMatches} matches where this team picked a map (nobody picks in a BO1, and
-        only one team does in a BO2). The decider (leftover map) doesn't count as a pick.
+        only one team does in a BO2). The decider (leftover map) doesn't count as a pick, and neither
+        do forfeits or steps FACEIT picked automatically because nobody voted in time.
       </Typography>
       <Box
         sx={{

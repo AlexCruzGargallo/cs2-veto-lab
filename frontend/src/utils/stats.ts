@@ -81,7 +81,10 @@ function topBy(stats: MapStats[], key: keyof MapStats) {
   return best?.map ?? null;
 }
 
-export function computeTeamStats(matches: AnalyzedMatch[]): TeamStats {
+export function computeTeamStats(allMatches: AnalyzedMatch[]): TeamStats {
+  // Los forfeits (un equipo no se presentó) no dicen nada de cómo juega el
+  // equipo: no cuentan ni en el récord, ni en los mapas, ni en el veto.
+  const matches = allMatches.filter((m) => !m.forfeit);
   const byMap = new Map<string, MapStats>();
   const statsFor = (map: string) => {
     if (!byMap.has(map)) byMap.set(map, emptyMapStats(map));
@@ -104,10 +107,16 @@ export function computeTeamStats(matches: AnalyzedMatch[]): TeamStats {
       s.roundDiff += played.us - played.them;
     }
 
-    if (match.vetos.length > 0) vetoedMatches++;
+    // Sólo cuenta como veto del equipo si decidió al menos un paso él mismo
+    // (los pasos automáticos de Faceit no son decisiones suyas).
+    if (match.vetos.some((v) => v.by === "us" && !v.decider && !v.random)) vetoedMatches++;
     // Sólo picks de mapas del pool activo: un pick de Overpass en un veto
     // antiguo no es una oportunidad de pick dentro del pool actual.
-    if (match.vetos.some((v) => v.by === "us" && v.action === "pick" && !v.decider && isActiveMap(v.map))) {
+    if (
+      match.vetos.some(
+        (v) => v.by === "us" && v.action === "pick" && !v.decider && !v.random && isActiveMap(v.map),
+      )
+    ) {
       pickableMatches++;
     }
 
@@ -117,6 +126,12 @@ export function computeTeamStats(matches: AnalyzedMatch[]): TeamStats {
       const s = statsFor(step.map);
       if (step.decider) {
         s.deciders++;
+        continue;
+      }
+      // Paso automático (no votaron a tiempo): no es una decisión del equipo.
+      // Si fue su primer ban, el siguiente no pasa a contar como primer ban.
+      if (step.random) {
+        if (step.by === "us" && step.action === "drop") firstBanSeen = true;
         continue;
       }
       if (step.by === "us") {

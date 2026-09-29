@@ -81,4 +81,37 @@ describe("buildAnalyzedMatch con partidos reales", () => {
     const nuke = m.maps[0].players.find((p) => p.nickname === "raINbro1944")!;
     expect(nuke).toMatchObject({ kills: 12, deaths: 14, adr: 57.7, hsPct: 50, firstKills: 3 });
   });
+
+  it("forfeit ganado: sin mapas jugados y veto automático del rival", () => {
+    const m = fixture("ff-win-auto-veto");
+    expect(m.forfeit).toBe(true);
+    expect(m.result).toBe("win");
+    // El "mapa" 1-0 no es un mapa jugado.
+    expect(m.maps).toEqual([]);
+    const theirSteps = m.vetos.filter((v) => v.by === "them" && !v.decider);
+    expect(theirSteps.length).toBeGreaterThan(0);
+    expect(theirSteps.every((v) => v.random)).toBe(true);
+  });
+
+  it("forfeit perdido: los bans \"nuestros\" los hizo Faceit, no el equipo", () => {
+    const m = fixture("ff-loss-our-auto-veto");
+    expect(m.forfeit).toBe(true);
+    expect(m.result).toBe("loss");
+    const ourSteps = m.vetos.filter((v) => v.by === "us" && !v.decider);
+    expect(ourSteps.every((v) => v.random)).toBe(true);
+  });
+
+  it("partido jugado sin voting.map.pick: los nombres de mapa salen de las estadísticas", () => {
+    const m = fixture("played-without-voting-maps");
+    expect(m.forfeit).toBe(false);
+    expect(m.maps).toHaveLength(2);
+    expect(m.maps.every((p) => p.map.startsWith("de_") && p.players.length === 5)).toBe(true);
+  });
+
+  it("partido jugado con un paso automático: no es forfeit y el paso queda marcado", () => {
+    const m = fixture("played-one-auto-step");
+    expect(m.forfeit).toBe(false);
+    expect(m.maps).toHaveLength(1);
+    expect(m.vetos.filter((v) => v.random)).toHaveLength(1);
+  });
 });
