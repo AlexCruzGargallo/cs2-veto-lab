@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { formatMap } from "../utils/maps";
+import { isCounted } from "../utils/stats";
 import { colors, RESULT_COLORS, tint } from "../themes/tokens";
 import ResultBadge from "./ui/ResultBadge";
 import Panel from "./ui/Panel";
@@ -49,7 +50,7 @@ function VetoChip({ step, label: text }: { step: VetoStep; label?: string }) {
   const who = step.by === "us" ? "this team" : step.by === "them" ? "the opponent" : "nobody";
   const title = step.random && !step.decider
     ? `Step ${step.round} · Picked automatically by FACEIT for ${who} (no vote in time) · not counted`
-    : `Step ${step.round} · ${label}`;
+    : `Step ${step.round} · ${label}${/^\d+$/.test(step.map) ? ` · Workshop map ${step.map}` : ""}`;
 
   return (
     <Tooltip title={title}>
@@ -155,11 +156,17 @@ function MatchResult({ match }: { match: AnalyzedMatch }) {
       <ResultBadge result={match.result}>
         {match.score.us}-{match.score.them}
       </ResultBadge>
-      {match.forfeit && (
-        <Tooltip title="Forfeit: no map was played. Not counted in any stat (its veto is usually automatic).">
+      {!isCounted(match) && (
+        <Tooltip
+          title={
+            match.forfeit
+              ? "Forfeit: no map was played. Not counted in any stat (its veto is usually automatic)."
+              : "This match was cancelled. Not counted in any stat."
+          }
+        >
           <Chip
             size="small"
-            label="FF · not counted"
+            label={match.forfeit ? "FF · not counted" : "Cancelled · not counted"}
             sx={{ ml: 1, height: 18, fontSize: "0.65rem", color: colors.warn, bgcolor: tint(colors.warn, 0.14) }}
           />
         </Tooltip>
@@ -219,7 +226,7 @@ const VetosTable = ({ matches, teamId }: VetosTableProps) => {
                 borderTop: `1px solid ${colors.border}`,
                 display: "grid",
                 gap: 1.25,
-                opacity: match.forfeit ? 0.6 : 1,
+                opacity: isCounted(match) ? 1 : 0.6,
               }}
             >
               <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
@@ -244,7 +251,7 @@ const VetosTable = ({ matches, teamId }: VetosTableProps) => {
             </TableHead>
             <TableBody>
               {matches.map((match) => (
-                <TableRow key={match.matchId} hover sx={{ "& td": { py: 1.5 }, opacity: match.forfeit ? 0.6 : 1 }}>
+                <TableRow key={match.matchId} hover sx={{ "& td": { py: 1.5 }, opacity: isCounted(match) ? 1 : 0.6 }}>
                   <TableCell sx={{ whiteSpace: "nowrap" }}>
                     <MatchDate match={match} />
                   </TableCell>

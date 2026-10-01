@@ -48,6 +48,8 @@ export function isActiveMap(guid: string) {
 }
 
 export function formatMap(guid: string) {
+  // Mapas de Workshop: Faceit los identifica sólo por un número.
+  if (/^\d+$/.test(guid)) return "Workshop";
   return (
     MAP_NAMES[guid] ??
     guid.replace(/^de_/, "").replace(/\b\w/g, (c) => c.toUpperCase())

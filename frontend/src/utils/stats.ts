@@ -81,10 +81,15 @@ function topBy(stats: MapStats[], key: keyof MapStats) {
   return best?.map ?? null;
 }
 
+// Sólo cuentan los partidos terminados y jugados de verdad. Los cancelados y
+// los forfeits (un equipo no se presentó) no dicen nada de cómo juega el
+// equipo: no cuentan ni en el récord, ni en los mapas, ni en el veto.
+export function isCounted(match: AnalyzedMatch) {
+  return match.status === "FINISHED" && !match.forfeit;
+}
+
 export function computeTeamStats(allMatches: AnalyzedMatch[]): TeamStats {
-  // Los forfeits (un equipo no se presentó) no dicen nada de cómo juega el
-  // equipo: no cuentan ni en el récord, ni en los mapas, ni en el veto.
-  const matches = allMatches.filter((m) => !m.forfeit);
+  const matches = allMatches.filter(isCounted);
   const byMap = new Map<string, MapStats>();
   const statsFor = (map: string) => {
     if (!byMap.has(map)) byMap.set(map, emptyMapStats(map));

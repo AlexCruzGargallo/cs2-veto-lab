@@ -25,7 +25,7 @@ import Panel from "../../components/ui/Panel";
 import { useTeamData } from "../../hooks/useTeamData";
 import { useAnalysisFilters } from "../../hooks/useAnalysisFilters";
 import { useMyTeam } from "../../hooks/useMyTeam";
-import { computeTeamStats, filterMatches } from "../../utils/stats";
+import { computeTeamStats, filterMatches, isCounted } from "../../utils/stats";
 import { analyzeRoster } from "../../utils/roster";
 import { colors } from "../../themes/tokens";
 import "./TeamStatsPage.scss";
@@ -149,6 +149,13 @@ export default function TeamStatsPage() {
       <TeamDetails team={data.team} stats={stats} league={data.league} />
 
       <RosterChangesAlert roster={roster} />
+
+      {!data.matches.some(isCounted) && (
+        <Alert severity="info" sx={{ mb: 2, textAlign: "left" }}>
+          This team has no played matches on FACEIT in the last 6 months (cancelled matches and
+          forfeits don't count), so there's nothing to analyze yet. Stats will show up once they play.
+        </Alert>
+      )}
 
       {data.failedMatches.length > 0 && (
         <Alert severity="warning" sx={{ mb: 2, textAlign: "left" }}>

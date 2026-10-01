@@ -160,7 +160,7 @@ const TeamDetails = ({ team, stats, league }: TeamDetailsProps) => {
               )}
             </Typography>
             <Typography variant="caption" sx={{ color: "text.secondary" }}>
-              last {matches.total} matches
+              {matches.total > 0 ? `last ${matches.total} matches` : "no played matches"}
             </Typography>
           </Box>
           <WinRateRing value={matches.winRate} />

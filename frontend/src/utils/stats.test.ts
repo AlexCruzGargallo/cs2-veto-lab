@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { computeTeamStats, filterMatches } from "./stats";
+import { formatMap } from "./maps";
 import { makeMatch as match, player, step } from "./testing";
 
 // BO3 perdido 1-2: nosotros quitamos Ancient e Inferno y pickeamos Anubis.
@@ -169,6 +170,28 @@ describe("forfeits y vetos automáticos", () => {
       ],
     });
     expect(computeTeamStats([allAuto]).vetoedMatches).toBe(0);
+  });
+});
+
+describe("partidos cancelados", () => {
+  it("no cuentan en el récord ni en el veto (aunque tengan veto hecho)", () => {
+    const cancelled = match({
+      status: "CANCELLED",
+      result: "unknown",
+      vetos: [step(1, "de_nuke", "drop", "us"), step(2, "de_mirage", "drop", "them")],
+    });
+    const stats = computeTeamStats([cancelled]);
+    expect(stats.matches.total).toBe(0);
+    expect(stats.vetoedMatches).toBe(0);
+    expect(stats.mostBanned).toBeNull();
+    expect(stats.firstBan).toBeNull();
+  });
+});
+
+describe("formatMap", () => {
+  it("muestra los mapas de Workshop (id numérico) como Workshop", () => {
+    expect(formatMap("3116932017")).toBe("Workshop");
+    expect(formatMap("de_dust2")).toBe("Dust 2");
   });
 });
 
